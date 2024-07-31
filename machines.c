@@ -19,7 +19,7 @@ Token* get_token_relop(char str_in[], int *lexeme_beginning){
         if      (str_in[sm.next_char] == '<') {sm.current_state = 1; sm.next_char++; strcat(sm.lexeme, "<");}
         else if (str_in[sm.next_char] == '=') {sm.current_state = 5; sm.next_char++; strcat(sm.lexeme, "=");}
         else if (str_in[sm.next_char] == '>') {sm.current_state = 6; sm.next_char++; strcat(sm.lexeme, ">");}
-        else    {return NULL;} //return null here with no changes, passing along to next 
+        else    {return NULL;} //return null here with no changes, passing along to next machine
         break;
       }
       case 1: {
