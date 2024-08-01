@@ -20,7 +20,12 @@ Status_T get_token_relop(char str_in[], int *lexeme_beginning, Token **new, char
         if      (str_in[sm.next_char] == '<') {sm.current_state = 1; sm.next_char++; strcat(sm.lexeme, "<");}
         else if (str_in[sm.next_char] == '=') {sm.current_state = 5; sm.next_char++; strcat(sm.lexeme, "=");}
         else if (str_in[sm.next_char] == '>') {sm.current_state = 6; sm.next_char++; strcat(sm.lexeme, ">");}
-        else    {strncpy(error_message, "Error: not a relop", 32); return ERROR;} 
+        else {
+          strncpy(error_message, "Error: not a relop", 32);
+          sm.next_char++;
+          *lexeme_beginning = sm.next_char;
+          return ERROR;
+        }
         break;
       }
       case 1: {
@@ -39,7 +44,12 @@ Status_T get_token_relop(char str_in[], int *lexeme_beginning, Token **new, char
         if   (str_in[sm.next_char] == '=') {sm.current_state = 7; sm.next_char++; strcat(sm.lexeme, "=");}
         else {sm.current_state = 8;}
       }
-      //case 7 ... 8:
+      case 7 ... 8: {
+        strncpy((*new)->lex, sm.lexeme, 32);
+        *lexeme_beginning = sm.next_char;
+        return SUCCESS;
+        break;
+      }
     }
   }
 }
