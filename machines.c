@@ -28,7 +28,7 @@ Token* get_token_relop(char str_in[], int *lexeme_beginning){
         else    {sm.current_state = 4; sm.next_char++;}
         break;
       }
-      case 2: { //<=
+      case 2 ... 5: {
         strncpy(new->lex, sm.lexeme, 32);
         *lexeme_beginning = sm.next_char++;
         return new;
