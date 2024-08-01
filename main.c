@@ -4,10 +4,19 @@
 #include "machines.h"
 
 
-int main(int argc, char *argv[]) {
+int main(void) {
   int b = 0;
-  Token *new = get_token_relop("<=", &b);
-  printf("Lexeme: %s\n", new->lex);
-  free(new);
+  char error_message[32];
+  Token *token;
+
+  Status_T status = get_token_relop("=", &b, &token, error_message);
+  if (status == SUCCESS){
+    printf("Lexeme: %s\n", token->lex);
+    free(token);
+  }else if (status == ERROR){
+    printf("%s\n", error_message);
+  }
   return 0;
 }
+
+

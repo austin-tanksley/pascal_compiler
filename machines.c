@@ -4,14 +4,15 @@
 #include <ctype.h>
 #include <string.h>
 
-Token* get_token_relop(char str_in[], int *lexeme_beginning){
+Status_T get_token_relop(char str_in[], int *lexeme_beginning, Token **new, char *error_message){
   SM_Machine_Info sm;
   sm.current_state = 0;
+  strncpy(sm.lexeme, "", 32);
   sm.next_char = *lexeme_beginning;
 
-  Token* new = malloc(sizeof(Token));
+  *new = malloc(sizeof(Token));
   if (new == NULL)
-    return NULL;
+    return ERROR;
   while(1){
     switch (sm.current_state) {
       //State Machine Start
@@ -19,21 +20,26 @@ Token* get_token_relop(char str_in[], int *lexeme_beginning){
         if      (str_in[sm.next_char] == '<') {sm.current_state = 1; sm.next_char++; strcat(sm.lexeme, "<");}
         else if (str_in[sm.next_char] == '=') {sm.current_state = 5; sm.next_char++; strcat(sm.lexeme, "=");}
         else if (str_in[sm.next_char] == '>') {sm.current_state = 6; sm.next_char++; strcat(sm.lexeme, ">");}
-        else    {return NULL;} //return null here with no changes, passing along to next machine
+        else    {strncpy(error_message, "Error: not a relop", 32); return ERROR;} 
         break;
       }
       case 1: {
         if      (str_in[sm.next_char] == '=') {sm.current_state = 2; sm.next_char++; strcat(sm.lexeme, "=" );}
         else if (str_in[sm.next_char] == '>') {sm.current_state = 3; sm.next_char++; strcat(sm.lexeme, ">" );}
-        else    {sm.current_state = 4; sm.next_char++;}
+        else    {sm.current_state = 4;}
         break;
       }
       case 2 ... 5: {
-        strncpy(new->lex, sm.lexeme, 32);
-        *lexeme_beginning = sm.next_char++;
-        return new;
+        strncpy((*new)->lex, sm.lexeme, 32);
+        *lexeme_beginning = sm.next_char;
+        return SUCCESS;
         break;
       }
+      case 6: {
+        if   (str_in[sm.next_char] == '=') {sm.current_state = 7; sm.next_char++; strcat(sm.lexeme, "=");}
+        else {sm.current_state = 8;}
+      }
+      //case 7 ... 8:
     }
   }
 }

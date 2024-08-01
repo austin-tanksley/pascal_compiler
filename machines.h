@@ -14,6 +14,12 @@ typedef struct {
   char lexeme[32];
 } SM_Machine_Info;
 
-Token* get_token_relop(char str_in[], int *lexeme_beginning);
+typedef enum {
+  SUCCESS,
+  ERROR,
+  FAIL
+} Status_T;
+
+Status_T get_token_relop(char str_in[], int *lexeme_beginning, Token** new, char* error_message);
 
 #endif // !_MACHINES_H_
