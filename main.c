@@ -6,7 +6,7 @@
 char* process_line(char* line_in, FILE* log_file, int line_num){
   int  lex_begin = 0;
   char error_message[32];
-  Token *token;
+  Token *token = NULL;
   char tok_buf[72] = "";
 
   fprintf(log_file, "%d %s", line_num, line_in);
@@ -17,8 +17,8 @@ char* process_line(char* line_in, FILE* log_file, int line_num){
     if (find_relop == SUCCESS){
       //add token to lex_buf
       strcat(tok_buf, token->lex);
-      char tok_n_att[20];
-      snprintf(tok_n_att, 19,"tok: %d att: %d", token->tok, token->att);
+      char tok_n_att[32];
+      snprintf(tok_n_att, 31," tok: %d att: %d lineno: %d", token->tok, token->att, line_num);
       strcat(tok_buf, tok_n_att);
       strcat(tok_buf, "\n");
       free(token);
@@ -37,7 +37,7 @@ int main(void) {
   FILE *lexer_log = fopen("lexer_log.txt", "w");
 
   char line_buffer[72];
-  int line_num = 0;
+  int line_num = 1;
   while (fgets(line_buffer, 72, input)){
     char* lex_buf = process_line(line_buffer, lexer_log, line_num);
     if (lex_buf != NULL){
