@@ -1,2 +1,5 @@
-<=
-=
+<=tok: 28 att: 43
+<tok: 28 att: 42
+<>tok: 28 att: 41
+>=tok: 28 att: 45
+>tok: 28 att: 44

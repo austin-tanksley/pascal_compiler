@@ -1,4 +1,4 @@
-0 o<=b
-Error: not a relop
-Error: not a relop
-1 =
+0  <= <
+1  <>
+2  >=
+3  >

@@ -1,4 +1,3 @@
-#Makefile 
-TARGET= lexer
-$(TARGET): main.c
+#Makefile
+lexer: main.c machines.c
 	gcc -o lexer main.c machines.c

@@ -9,16 +9,20 @@ char* process_line(char* line_in, FILE* log_file, int line_num){
   Token *token;
   char tok_buf[72] = "";
 
-
   fprintf(log_file, "%d %s", line_num, line_in);
   while(line_in[lex_begin] != '\0' && line_in[lex_begin] != '\n' ){
-    Status_T status = get_token_relop(line_in, &lex_begin, &token, error_message);
-    if (status == SUCCESS){
+
+    remove_white_space(line_in, &lex_begin);
+    Status_T find_relop = get_token_relop(line_in, &lex_begin, &token, error_message);
+    if (find_relop == SUCCESS){
       //add token to lex_buf
       strcat(tok_buf, token->lex);
+      char tok_n_att[20];
+      snprintf(tok_n_att, 19,"tok: %d att: %d", token->tok, token->att);
+      strcat(tok_buf, tok_n_att);
       strcat(tok_buf, "\n");
       free(token);
-    }else if (status == ERROR){
+    }else if (find_relop == ERROR){
       fprintf(log_file, "%s\n", error_message);
     }
   }

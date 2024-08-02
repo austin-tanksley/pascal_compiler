@@ -20,6 +20,7 @@ typedef enum {
   FAIL
 } Status_T;
 
+void remove_white_space(char str_in[], int *lexeme_beginning);
 Status_T get_token_relop(char str_in[], int *lexeme_beginning, Token** new, char* error_message);
 
 #endif // !_MACHINES_H_
